@@ -1,0 +1,31 @@
+name: PR • Run external Python script
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  run-external:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # - name: Checkout external repo
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: SanyaKor/
+      #     ref: main
+      #     path: external
+
+      - name: Run external Python script
+        run: python testing/py_script.py
