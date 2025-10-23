@@ -20,4 +20,6 @@ jobs:
       - name: Run script (posts PR comment)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: python testing/py_script.py
