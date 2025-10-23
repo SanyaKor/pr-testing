@@ -12,10 +12,10 @@ jobs:
     steps:
       - name: Checkout external script repo
         uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository_owner }}/ci-external-scripts
-          ref: main
-          path: ext
+        # with:
+        #   repository: ${{ github.repository_owner }}/
+        #   ref: main
+        #   path: ext
 
       - name: Run script (posts PR comment)
         env:
