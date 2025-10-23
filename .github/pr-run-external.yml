@@ -1,11 +1,9 @@
 name: PR • Run external Python script
 
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+on: pull_request
 
 permissions:
-  contents: read
+  pull-requests: write
 
 
 jobs:
