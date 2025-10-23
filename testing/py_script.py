@@ -8,7 +8,7 @@ token = os.environ["GITHUB_TOKEN"]
 parts = ref.split("/")
 
 if len(parts) < 3 or not parts[2].isdigit():
-    raise SystemExit("Could not determine PR number from GITHUB_REF: " + ref
+    raise SystemExit("Could not determine PR number from GITHUB_REF: " + ref)
 
 pr_number = parts[2]
 
