@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 import os, json, urllib.request, urllib.error
 
-repo = os.environ["GITHUB_REPOSITORY"]
-ref  = os.environ["GITHUB_REF"]
+repo  = os.environ["REPO"]
+pr    = os.environ["PR_NUMBER"]
 token = os.environ["GITHUB_TOKEN"]
 
-parts = ref.split("/")
-if len(parts) < 3 or not parts[2].isdigit():
-    raise SystemExit("Не получилось определить номер PR из GITHUB_REF: " + ref)
-pr_number = parts[2]
-
-url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments"
-data = json.dumps({"body": "✅ Взято в работу. Бот отписался."}).encode()
+url  = f"https://api.github.com/repos/{repo}/issues/{pr}/comments"
+data = json.dumps({"body": "✅ This Pull Request has been taken in progress by the external bot."}).encode()
 
 req = urllib.request.Request(
     url, data=data, method="POST",
@@ -25,9 +20,8 @@ req = urllib.request.Request(
 
 try:
     with urllib.request.urlopen(req) as r:
-        if r.status == 201:
-            print("Комментарий добавлен.")
-        else:
-            print("Неожиданный статус:", r.status, r.read().decode())
+        print("Status:", r.status)
+        print("Comment posted.") if r.status == 201 else print("Unexpected response.")
 except urllib.error.HTTPError as e:
-    print("Ошибка API:", e.code, e.read().decode())
+    print("API error:", e.code, e.read().decode())
+    raise SystemExit(1)
