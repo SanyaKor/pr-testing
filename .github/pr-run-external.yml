@@ -7,25 +7,19 @@ on:
 permissions:
   contents: read
 
+
 jobs:
-  run-external:
+  comment:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout current repo
+      - name: Checkout external script repo
         uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          repository: ${{ github.repository_owner }}/ci-external-scripts
+          ref: main
+          path: ext
 
-      # - name: Checkout external repo
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: SanyaKor/
-      #     ref: main
-      #     path: external
-
-      - name: Run external Python script
+      - name: Run script (posts PR comment)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python testing/py_script.py
